@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div> This is div1</div>
+    <div id="div2"> This is div2, JS will change the content </div>
+    <div>
+        <div> One</div>
+        <div>Two</div>
+    </div>
+    <div id="counting">
+    </div>
+
+    <script>
+        let countingEl = document.getElementById("counting");
+        countingEl.innerHTML = "";
+        for (let i = 1; i <= 10; i++) {
+            countingEl.innerHTML += "<div>" + i + "</div>";
+        }
+        function myfun() {
+            s = 0;
+            for (var i = 1; i <= 10; i++) {
+                s = s + i;
+            }
+            var s;
+            return s;
+        }
+        let student = { name: 'Rajan', age: 45 };
+        student.branch = "CSE";
+        student['address'] = "Chandigarh";
+        console.log(student);
+
+        var val = 45;
+        val = "Hello LPU";
+        var x = "good";
+        x = { name: 'Virat', score: 130 }
+        var y = 34;
+        var y = 393;
+        var y = 595;
+        const COLOR = 'Black';
+        // COLOR = 'WHILE';
+        let a = 36;
+
+        // window.alert("Javascript is showing alert");
+        console.log("javascript logging some logs (messages)");
+        var el = document.getElementById("div2");
+        el.innerHTML = "Hello all !! Welcome to Javascript";
+        var alldivs = document.getElementsByTagName("div");
+        console.log("number of divs =" + alldivs.length)
+
+    </script>
+</body>
+
+</html>

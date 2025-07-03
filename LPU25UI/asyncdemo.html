@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <h2> See Console</h2>
+    <button onclick="loadData()">Load Data </button>
+    <div id="data"></div>
+    <script>
+        async function loadData() {
+            var obj = { name: 'Dinesh', profile: 'java' };
+            var str = JSON.stringify(obj);
+
+
+            // var resp = await fetch("mydata.txt");
+            // var data = await resp.text();
+            // console.log(data);
+            // document.getElementById("data").innerHTML = data;
+
+            fetch("mydata.txt")
+                .then((resp) => resp.text())
+                .then((data) => {
+                    console.log(data);
+                    document.getElementById("data").innerHTML = data;
+                })
+                .catch((err) => console.log("error happended :" + err))
+
+        }
+
+        function sum(a, b) {
+            return a + b;
+        }
+        async function add(a, b) {
+            return a + b;
+        }
+        async function dothings() {
+            var ans = await add(5, 6);
+            console.log("after calling add that takes time");
+            console.log("value returned in ans " + ans);
+
+
+        }
+        function actualAdd(a, b) {
+            return new Promise(function (resolve, reject) {
+                try {
+                    var c = a + b;
+                    resolve(c);
+                }
+                catch (err) {
+                    reject(err);
+                }
+            })
+        }
+        console.log(sum(4, 5));
+        var val = add(4, 5);
+        val.then((data) => { console.log("data after promise completed is " + data) })
+        console.log("last line");
+
+
+    </script>
+</body>
+
+</html>
