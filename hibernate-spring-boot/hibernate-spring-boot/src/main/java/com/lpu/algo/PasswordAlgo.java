@@ -1,0 +1,15 @@
+package com.lpu.algo;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class PasswordAlgo {
+	public String encrypt(String password)
+	{
+		// write a program to return reverse of a string
+		StringBuilder sb = new StringBuilder(password);
+		StringBuilder reverse = sb.reverse();
+		return reverse.toString();
+	}
+
+}
