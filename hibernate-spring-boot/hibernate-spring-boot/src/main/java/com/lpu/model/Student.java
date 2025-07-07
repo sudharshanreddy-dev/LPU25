@@ -2,19 +2,24 @@ package com.lpu.model;
 
 import java.sql.Date;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name="student")
 public class Student {
 	@Id
 	int roll;
 	
+	@Column(name="sname")
 	String sname;
 	String branch;
 	String phone;
 	Date dob;
 	Integer marks;
+	String email;
 	@Override
 	public String toString() {
 		return "Student [roll=" + roll + ", sname=" + sname + ", branch=" + branch + ", phone=" + phone + ", dob=" + dob
