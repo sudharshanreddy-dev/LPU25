@@ -1,12 +1,15 @@
 package com.lpu;
 
 import java.sql.Date;
+import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import com.lpu.algo.PasswordAlgo;
+import com.lpu.algo.MyPasswordAlgo;
+import com.lpu.algo.PasswordHasher;
 import com.lpu.model.Department;
 import com.lpu.model.Employee;
 import com.lpu.model.Faculty;
@@ -25,21 +28,43 @@ public class HibernateSpringBootApplication {
 
 	public static void main(String[] args) {
 		ConfigurableApplicationContext context = SpringApplication.run(HibernateSpringBootApplication.class, args);
-		PasswordAlgo algo = context.getBean(PasswordAlgo.class);
+		MyPasswordAlgo algo = context.getBean(MyPasswordAlgo.class);
 		String rev = algo.encrypt("ThisPass@34");
 		System.out.println(rev);
+		
+		PasswordHasher bean = context.getBean(PasswordHasher.class);
+		System.out.println(bean);
+		
+		Object bean2 = context.getBean("myXmlBeanSimple");
+		System.out.println("xml bean : " + bean2);
 
-		//		String[] beans = context.getBeanDefinitionNames();
-		//		for(String beanName : beans)
-		//			System.out.println(beanName);
-		//		
-		//		testStudent(context);
-		//		testProject(context);
-		//		testParking(context);
-//		testEmployeeDept(context);
-//		testParking(context);
-		testSingleTable(context);
+		
+		String[] beans = context.getBeanDefinitionNames();
+		for(String beanName : beans)
+		{
+			Object bean3 = context.getBean(beanName);
+			if(bean3 instanceof PasswordHasher || bean3 instanceof MyPasswordAlgo)
+				System.out.println(beanName);
 
+		}
+
+	}
+	public static void testCustomQuery(ConfigurableApplicationContext context)
+	{
+		EntityManagerFactory emf = context.getBean(EntityManagerFactory.class);
+		EntityManager em = emf.createEntityManager();
+		Query query2 = em.createQuery("select p, p.employee.name from Parking p where p.employee.name = :name");
+		query2.setParameter("name", "Priyanshu");
+		List<Object[]> resultList2 = query2.getResultList();
+		resultList2.forEach(ar -> System.out.println(Arrays.toString(ar)));
+		
+		Query query = em.createQuery("select e from Employee e where e.name= :name");
+		query.setParameter("name", "Kalyan");
+		query.getResultList().forEach(System.out::println);
+		
+		Query nativeQuery = em.createNativeQuery("select * from issue,book where issue.bid = book.bid");
+		List<Object[]> resultList = nativeQuery.getResultList();
+		resultList.forEach(ar -> System.out.println(Arrays.toString(ar)));
 	}
 	public static void testSingleTable(ConfigurableApplicationContext context)
 	{

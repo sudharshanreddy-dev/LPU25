@@ -1,9 +1,9 @@
 package com.lpu.algo;
 
 import org.springframework.stereotype.Component;
-
+// spring will create an object of this class (JUST ONE )
 @Component
-public class PasswordAlgo {
+public class MyPasswordAlgo {
 	public String encrypt(String password)
 	{
 		// write a program to return reverse of a string
