@@ -7,9 +7,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import com.lpu.algo.PasswordAlgo;
+import com.lpu.model.Department;
+import com.lpu.model.Employee;
+import com.lpu.model.Faculty;
 import com.lpu.model.Parking;
+import com.lpu.model.Person;
 import com.lpu.model.Project;
 import com.lpu.model.Student;
+import com.lpu.model.Student2;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -31,7 +36,24 @@ public class HibernateSpringBootApplication {
 		//		testStudent(context);
 		//		testProject(context);
 		//		testParking(context);
+//		testEmployeeDept(context);
+//		testParking(context);
+		testSingleTable(context);
 
+	}
+	public static void testSingleTable(ConfigurableApplicationContext context)
+	{
+		EntityManagerFactory emf = context.getBean(EntityManagerFactory.class);
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		Person p1 =new Person(0,"Rajan Manocha", "9865548798");
+		Student2 s = new Student2(0, "Pratyush", "8798658744", 11025,"CSE");
+		Faculty f = new Faculty(0, "Dinesh", "9865872020", null, null);
+		em.persist(f);
+		em.persist(s);
+		em.persist(p1);
+		em.getTransaction().commit();
+		
 	}
 	public static void testProject(ConfigurableApplicationContext context)
 	{
@@ -45,27 +67,48 @@ public class HibernateSpringBootApplication {
 		em.getTransaction().commit();
 
 	}
+	public static void testEmployeeDept(ConfigurableApplicationContext context)
+	{
+		EntityManagerFactory emf = context.getBean(EntityManagerFactory.class);
+		EntityManager em = emf.createEntityManager();
+		Employee employee = em.find(Employee.class, 1108);
+		Department meDept = employee.getDepartment();
+		System.out.println(employee);
+		
+		Department department = em.find(Department.class, 1);
+		System.out.println();
+		System.out.println("working in " + department.getName());
+		department.getEmployees().forEach(System.out::println);
+		em.getTransaction().begin();
+		Employee krishan = em.find(Employee.class,1);
+		krishan.setDesignation("Machine Operator");
+//		em.persist(krishan);
+		Employee emp = new Employee();
+		emp.setDesignation("SE");
+		emp.setMgrid(null);
+		emp.setName("Krishan Manocha");
+		emp.setDepartment(meDept);
+//		em.persist(emp);
+		em.getTransaction().commit();
+
+	}
 	public static void testParking(ConfigurableApplicationContext context)
 	{
 		EntityManagerFactory emf = context.getBean(EntityManagerFactory.class);
 		EntityManager em = emf.createEntityManager();
 		try
 		{
-			em.getTransaction().begin();
+			Parking parking = em.find(Parking.class,1101);
+			System.out.println(parking);
 
-			Parking p1 =new Parking();p1.setFloor(1); p1.setPlace(12);
-			Parking p2 =new Parking();p1.setFloor(1); p1.setPlace(13);
-
-			em.persist(p1);
-			em.persist(p2);
 		}
 		catch(Exception e)
 		{
-			em.getTransaction().rollback();
+			e.printStackTrace();
 		}
 		finally
 		{
-			em.getTransaction().commit();
+			em.close();
 		}
 	}
 	public static void testStudent(ConfigurableApplicationContext context)
