@@ -37,16 +37,5 @@ public class MapNameCity {
 		five hundred forty
 		34 thirty four
 		2 two
-	
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 	}
 }
